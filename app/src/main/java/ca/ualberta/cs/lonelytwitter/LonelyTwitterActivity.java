@@ -14,8 +14,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,9 @@ public class LonelyTwitterActivity extends Activity {
 	private ListView oldTweetsList;
 	private ArrayList<Tweet> tweets;
 	private ArrayAdapter<Tweet> adapter;
+    private Activity activity;
+
+    private final int EDIT_TWEET_REQUEST = 1;
 
 
 	/** Called when the activity is first created. */
@@ -38,7 +43,8 @@ public class LonelyTwitterActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+        setContentView(R.layout.main);
+        activity = this;
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
@@ -46,15 +52,28 @@ public class LonelyTwitterActivity extends Activity {
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
-			public void onClick(View v) {
-				setResult(RESULT_OK);
-				String text = bodyText.getText().toString();
-				tweets.add(new NormalTweet(text));
-				saveInFile();
-				adapter.notifyDataSetChanged();
-			}
-		});
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                String text = bodyText.getText().toString();
+                tweets.add(new NormalTweet(text));
+                saveInFile();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+		oldTweetsList.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Tweet selectedTweet = tweets.get(position);
+                        Intent intent = new Intent(activity, EditTweetActivity.class);
+                        intent.putExtra("TweetPosition", position);
+                        intent.putExtra("Tweet", selectedTweet);
+
+                        startActivityForResult(intent, EDIT_TWEET_REQUEST);
+                    }
+                });
 	}
+
 
 	@Override
 	protected void onStart() {
@@ -68,7 +87,17 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList.setAdapter(adapter);
 	}
 
-	private void loadFromFile() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_TWEET_REQUEST) {
+            // TODO do stuff with tweet
+            Tweet resultTweet = data.getExtras().getParcelable("EdittedTweet");
+        }
+    }
+
+    private void loadFromFile() {
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));

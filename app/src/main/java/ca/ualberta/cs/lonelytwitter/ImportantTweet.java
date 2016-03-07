@@ -1,5 +1,8 @@
 package ca.ualberta.cs.lonelytwitter;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
@@ -24,5 +27,18 @@ public class ImportantTweet extends Tweet {
     public String getText() {
         return "!!!" + super.getText();
     }
+
+    public ImportantTweet(Parcel in) { super(in); }
+
+    //http://stackoverflow.com/questions/7181526/how-can-i-make-my-custom-objects-be-parcelable codelogic 06-03-2016
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public ImportantTweet createFromParcel(Parcel in) {
+            return new ImportantTweet(in);
+        }
+
+        public ImportantTweet[] newArray(int size) {
+            return new ImportantTweet[0];
+        }
+    };
 
 }

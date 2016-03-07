@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class TweetList {
     private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 
+    protected TweetList() { super(); }
+
     public void add(Tweet tweet) {
         tweets.add(tweet);
     }
@@ -19,4 +21,13 @@ public class TweetList {
     public Boolean contains(Tweet tweet) {
         return tweets.contains(tweet);
     }
+
+    public int size() {
+        return tweets.size();
+    }
+
+    public Tweet get(int position) {
+        return tweets.get(position);
+    }
+
 }
