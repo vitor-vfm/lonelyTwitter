@@ -29,6 +29,9 @@ public class EditTweetActivity extends Activity {
 
         tweetText.setText(passedTweet.getText());
 
+        TweetList myTweets = TweetList.getInstance();
+        Tweet myTweet = myTweets.get(0);
+        System.out.println("The tweet text was found to be: " + myTweet.getText() );
 
         ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

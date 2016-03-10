@@ -7,7 +7,8 @@ import junit.framework.TestCase;
 /**
  * Created by joshua2 on 9/28/15.
  */
-public class TweetTest extends ActivityInstrumentationTestCase2 {
+public class TweetTest extends ActivityInstrumentationTestCase2 implements MyObserver {
+    private boolean iWasNotified = false;
 
     public TweetTest() {
         super(ca.ualberta.cs.lonelytwitter.LonelyTwitterActivity.class);
@@ -35,5 +36,19 @@ public class TweetTest extends ActivityInstrumentationTestCase2 {
 
     public void testToString() throws Exception {
 
+    }
+
+    public void testObserverNotify() {
+        Tweet myTweet = new NormalTweet("Test");
+        // We want to modify the tweet text to make sure that the
+        // observer is notified.
+        myTweet.registerObserver(this);
+        assertFalse(iWasNotified);
+        myTweet.setText("New string to trigger the observer.");
+        assertTrue(iWasNotified);
+    }
+
+    public void myNotify() {
+        iWasNotified = true;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by joshua2 on 9/16/15.
  */
-public class ImportantTweet extends Tweet {
+public class ImportantTweet extends Tweet implements MyObservable {
     public ImportantTweet(String tweet, Date date) {
         super(tweet, date);
         this.setText(tweet);
@@ -41,4 +41,11 @@ public class ImportantTweet extends Tweet {
         }
     };
 
+    public void registerObserver(MyObserver o) {
+
+    }
+
+    public void myNotifyAll() {
+
+    }
 }

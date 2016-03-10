@@ -61,6 +61,8 @@ public class LonelyTwitterActivity extends Activity {
             }
         });
 
+		final TweetList myTweets = TweetList.getInstance();
+
 		oldTweetsList.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,7 +70,7 @@ public class LonelyTwitterActivity extends Activity {
                         Intent intent = new Intent(activity, EditTweetActivity.class);
                         intent.putExtra("TweetPosition", position);
                         intent.putExtra("Tweet", selectedTweet);
-
+						myTweets.add(selectedTweet);
                         startActivityForResult(intent, EDIT_TWEET_REQUEST);
                     }
                 });
