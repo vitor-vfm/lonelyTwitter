@@ -2,7 +2,12 @@ package ca.ualberta.cs.lonelytwitter;
 
 import java.util.Date;
 
+import io.searchbox.annotations.JestId;
+
 public abstract class Tweet implements Tweetable {
+
+    @JestId
+    private String id;
     private String message;
     private Date date;
 
@@ -14,6 +19,14 @@ public abstract class Tweet implements Tweetable {
     public Tweet(String message, Date date){
         this.message = message;
         this.date = date;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override
